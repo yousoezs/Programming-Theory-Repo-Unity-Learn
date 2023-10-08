@@ -11,10 +11,9 @@ public class Cat : Animal // INHERITANCE
     private int _catAge = 5;
 
     private float _runSpeed = 2f;
-
-    private bool _isRunning;
-    private bool _isJumping;
-
+    private float _jumpForce = 1500f;
+    private float _gravity = 1000f;
+    
     private Vector3 _direction;
 
     private CharacterController _playerControl;
@@ -33,11 +32,29 @@ public class Cat : Animal // INHERITANCE
     {
         Debug.Log($"Cat Name: {GetName(Name)}");
         Debug.Log($"Cat Age: {GetAge(Age)}");
+        Debug.Log($"Switchin to PlayerName and Age");
     }
 
     private void Update()
     {
+        PlayerControls();
+    }
+
+    //ENCAPSULATION
+    private void PlayerControls()
+    {
         Move();
+        Jump();
+        Talk();
+        ApplyGravity();
+
+        _playerControl.Move(_direction * Time.deltaTime);
+        _direction = Vector3.zero;
+    }
+    private void ApplyGravity()
+    {
+        if (_playerControl.isGrounded) return;
+        _direction.y -= _gravity * Time.deltaTime;
     }
 
     //POLYMORPHISM
@@ -49,22 +66,18 @@ public class Cat : Animal // INHERITANCE
         if (Input.GetKey(KeyCode.W))
         {
             _direction = new Vector3(0, 0, verticalInput * WalkSpeed);
-            _playerControl.Move(_direction * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S))
         {
             _direction = new Vector3(0, 0, --verticalInput * WalkSpeed);
-            _playerControl.Move(_direction * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
             _direction = new Vector3(--horizontalInput * WalkSpeed, 0, 0);
-            _playerControl.Move(_direction * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.D))
         {
             _direction = new Vector3(horizontalInput * WalkSpeed, 0, 0);
-            _playerControl.Move(_direction * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -73,11 +86,20 @@ public class Cat : Animal // INHERITANCE
     //POLYMORPHISM
     public override void Jump()
     {
+        if (!_playerControl.isGrounded) return;
         
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log($"Jumping");
+            _direction.y += _jumpForce;
+        }
     }
     //POLYMORPHISM
     public override void Talk()
     {
-        
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log($"Meooooow!");
+        }
     }
 }
