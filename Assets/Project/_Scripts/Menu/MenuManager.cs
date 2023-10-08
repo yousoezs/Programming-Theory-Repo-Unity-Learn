@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
-    [SerializeField] private List<GameObject> _spawnPoint;
-    [SerializeField] private List<GameObject> _animals;
-    
+    public List<GameObject> SpawnPoint;
+    public List<GameObject> Animals;
+
     #region Fields
 
     public string PlayerName = string.Empty;
     public int PlayerAge;
+
     #endregion
 
     private void Awake()
@@ -23,20 +25,9 @@ public class MenuManager : MonoBehaviour
             Destroy(this);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(this);
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += SpawnCat;
-        SceneManager.sceneLoaded += SpawnDog;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= SpawnCat;
-        SceneManager.sceneLoaded -= SpawnDog;
     }
 
     public void ChangeScene()
@@ -44,27 +35,23 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("ChooseAnimal", LoadSceneMode.Single);
     }
 
-    public bool StartGameAsCat()
+    public void StartGameAsCat()
     {
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
-        return true;
     }
 
-    public bool StartGameAsDog()
+    public void StartGameAsDog()
     {
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
-        return true;
     }
 
-    private void SpawnDog(Scene arg0, LoadSceneMode loadSceneMode)
+    public void SpawnDog()
     {
-        if (!StartGameAsDog()) return;
-            Instantiate(_animals[0], _spawnPoint[0].transform.position, Quaternion.identity);
+        Instantiate(Animals[0], SpawnPoint[0].transform.position, Quaternion.identity);
     }
 
-    private void SpawnCat(Scene arg0, LoadSceneMode loadSceneMode)
+    public void SpawnCat()
     {
-        if (!StartGameAsCat()) return;
-            Instantiate(_animals[1], _spawnPoint[1].transform.position, Quaternion.identity);
+        Instantiate(Animals[1], SpawnPoint[1].transform.position, Quaternion.identity);
     }
 }

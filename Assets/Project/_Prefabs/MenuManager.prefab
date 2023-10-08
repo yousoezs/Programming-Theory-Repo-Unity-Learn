@@ -43,10 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a80f54c0fe25949af2706a10d2b514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnPoint:
+  SpawnPoint:
   - {fileID: 426010802225983866, guid: 61b4af97cf3a9af449c202b14693a0b6, type: 3}
   - {fileID: 5807059234375922204, guid: e7fdb1a6d5df55e4b892c09a66159286, type: 3}
-  _animals:
+  Animals:
   - {fileID: 4356803453136109726, guid: dc0adefb22062c2428a41f83e5bd006a, type: 3}
   - {fileID: 1376860348280600278, guid: 6f4d6aa4d0c6c414e92a85fedff9b476, type: 3}
   PlayerName: 
